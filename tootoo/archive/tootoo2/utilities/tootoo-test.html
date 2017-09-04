@@ -1,0 +1,945 @@
+<!doctype html>
+<html lang=en >
+<head>
+<meta charset=utf-8 >
+<title>preIQtiv - invest smarter</title>
+<meta name=viewport content='width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no' >
+<meta name=description content='A variety of tools to browse and view all S&P 500 symbols all at once.' >
+<meta name=keywords content='CSS,HTML,JavaScript,GitHub,FOSS' >
+<meta name=date content='2017-04-26' >
+</head>
+<body>
+<script src=https://cdn.rawgit.com/showdownjs/showdown/master/dist/showdown.min.js ></script>
+<script src=../r2/css.js ></script>
+<script>
+// ../r2/but-buttons.js inserted
+
+BUT = {};
+
+BUT.initButtons = function() {
+
+editButton = document.body.appendChild( document.createElement( 'div' ) );
+editButton.id = 'editButton';
+editButton.innerHTML = 'Edit';
+editButton.title = 'Update this page using the GitHub source code editor';
+
+nextFile = document.body.appendChild( document.createElement( 'div' ) );
+nextFile.id = 'nextFile';
+nextFile.innerHTML = '&gt;';
+nextFile.title = 'Next file';
+
+previousFile = container.appendChild( document.createElement( 'div' ) );
+previousFile.id = 'previousFile';
+previousFile.innerHTML = '&lt;';
+previousFile.title = 'Previous file';
+
+}
+
+
+
+BUT.setHighlightAndButtons = function( path, gallery ) {
+
+//highlight
+index = TOO.files.indexOf( path );
+
+for ( let i = 0; i < TOO.files.length; i++ ) {
+
+el = document.getElementById( 'file' + i );
+
+col = ( i === index ) ? '#ccc' : '';
+
+el.style.backgroundColor = col;
+
+}
+
+// buttons
+if ( editButton ) {
+
+folder = user.folder ? user.folder + '/' : '';
+
+editButton.innerHTML = '<a href="https://github.com/' + user.user + '/' + user.repo + '/blob/' + user.branch + '/' + folder + path + '" target="_blank"> Edit </a>';
+
+}
+
+indexNext = index + 1;
+
+if ( index >= TOO.files.length - 1 ) { indexNext = 0; }
+
+indexPrevious = index - 1;
+
+if ( index <= 0 ) { indexPrevious = TOO.files.length - 1; }
+
+if ( nextFile || previousFile ) {
+
+if ( gallery ) {
+
+nextFile.innerHTML = '<a href=JavaScript:TOO.createPageOfImages("' + TOO.files[ indexNext ] + '"); > &gt; </a>';
+previousFile.innerHTML = '<a href=JavaScript:TOO.createPageOfImages("' + TOO.files[ indexPrevious ] + '"); > &lt; </a>';
+
+} else {
+
+nextFile.innerHTML = '<a href=JavaScript:TOO.getFileSetContents("' + TOO.files[ indexNext ] + '"); > &gt; </a>';
+previousFile.innerHTML = '<a href=JavaScript:TOO.getFileSetContents("' + TOO.files[ indexPrevious ] + '"); > &lt; </a>';
+
+}
+}
+
+}
+</script>
+<script>
+// ../r2/sel-select-users.js inserted
+
+let SEL = {};
+let users = {};
+
+users.bPesquet = {
+user : 'bpesquet',
+subText: 'A modern introduction to an essential language.',
+repo : 'thejsway',
+branch : 'master',
+folder : '',
+rawgit: true
+};
+users.d3 = {
+user : 'd3',
+logo : '<img src=https://d3js.org/logo.svg height=32 >',
+repo : 'd3',
+branch : 'master',
+folder : '',
+rawgit: true
+//	noIndex: true
+};
+users.d3GH = {
+user : 'd3',
+logo : '<img src=https://d3js.org/logo.svg height=32 >',
+repo : 'd3.github.com',
+branch : 'master',
+folder : '',
+rawgit: true,
+defaultFile : 'LICENSE'
+};
+users.frontEnd = {
+user : 'FrontendMasters',
+repo : 'front-end-handbook-2017',
+branch : 'master',
+folder : '',
+rawgit: true
+};
+users.jaanga = {
+user : 'jaanga',
+logo : '<img src=https://jaanga.github.io/j.png height=32 >',
+repo : 'jaanga.github.io',
+branch : 'master',
+folder : '',
+defaultFile : 'readme.md'
+};
+users.jDemo = {
+user: 'jaanga',
+logo : '<img src=https://jaanga.github.io/j.png height=32 >',
+repo: 'jaanga.github.io',
+branch: 'master',
+folder: 'demo'
+};
+users.jDocs = {
+user: 'jaanga',
+logo : '<img src=https://jaanga.github.io/j.png height=32 >',
+repo: 'jaanga.github.io',
+branch: 'master',
+folder: 'documents'
+};
+users.jTerrain = {
+user: 'jaanga',
+logo : '<img src=https://jaanga.github.io/j.png height=32 >',
+repo: 'terrain3',
+branch: 'gh-pages',
+folder: ''
+};
+users.jupyter = {
+user : 'jupyter',
+logo : '<img src=https://blog.jupyter.org/content/images/2015/02/jupyter-sq-text.png height=32 >',
+repo : 'jupyter.github.io',
+branch : 'master',
+folder : '',
+rawgit: true
+};
+users.jupyterNotebook = {
+user : 'jupyter',
+logo : '<img src=https://blog.jupyter.org/content/images/2015/02/jupyter-sq-text.png height=32 >',
+repo : 'notebook',
+branch : 'master',
+folder : '',
+rawgit: true
+};
+users.ladybugDynamo = {
+user : 'ladybug-tools',
+repo : 'ladybug-dynamo',
+branch : 'gh-pages',
+folder : '',
+rawgit: true
+};
+users.ladybugWeb = {
+user : 'ladybug-tools',
+repo : 'ladybug-web',
+branch : 'gh-pages',
+folder : '',
+rawgit: true
+};
+users.leader = {
+user : 'leaderphotos',
+repo : 'leaderphotos.github.io',
+branch : 'master',
+folder :''
+};
+users.mrdoob = {
+user : 'mrdoob',
+repo : 'three.js',
+branch : 'dev',
+folder : '',
+rawgit: true
+};
+users.paulmasson = {
+user : 'paulmasson',
+logo : '<img src=http://paulmasson.github.io/apple-touch-icon.png height=32 >',
+repo : 'paulmasson.github.io',
+branch : 'master',
+folder : ''
+};
+users.pushmePullyou = {
+user : 'pushme-pullyou',
+repo : 'pushme-pullyou.github.io',
+branch : 'master',
+folder : '',
+noIndex: true,
+rawgit: null
+};
+users.pushmePullyouTooTo = {
+user : 'pushme-pullyou',
+repo : 'pushme-pullyou.github.io',
+branch : 'master',
+folder : 'tootoo',
+noIndex: true,
+rawgit: null
+};
+users.sagemathGH = {
+user : 'sagemath',
+repo : 'sagemath.github.io',
+branch : 'master',
+folder : ''
+};
+users.sagemathCell = {
+user : 'sagemath',
+repo : 'sagecell',
+branch : 'gh-pages',
+folder : '',
+rawgit: true
+};
+users.sagemathSageDev = {
+user : 'sagemath',
+repo : 'sage',
+branch : 'develop',
+folder : '',
+rawgit: true
+};
+users.sagemathDocs = {
+user : 'sagemath',
+repo : 'documentation',
+branch : 'gh-pages',
+folder : 'html'
+};
+users.sagemathPlanet = {
+user : 'sagemath',
+repo : 'planet',
+branch : 'gh-pages',
+folder : ''
+};
+users.theoArmour = {
+user : 'theo-armour',
+repo : 'theo-armour.github.io',
+branch : 'master',
+folder : ''
+};
+users.theoDraw = {
+user : 'theo-armour',
+repo : 'drawing',
+branch : 'master',
+folder : ''
+};
+users.theoPages2 = {
+user : 'theo-armour',
+repo : 'theo-armour.github.io',
+branch : 'master',
+folder : 'pages2'
+};
+users.prediqtiv = {
+user : 'prediqtiv',
+subText : 'Invest smarter',
+repo : 'prediqtiv.github.io',
+branch : 'master',
+folder : ''
+};
+
+/*
+users. = {
+user : '',
+repo : '',
+branch : '',
+folder : ''
+};
+*/
+
+
+SEL.initSelectUsers = function() {
+
+mnuSelect.innerHTML =
+
+'<details open>' +
+
+'<summary><h3>Select User/ Repo/ Branch/ </h3></summary>' +
+
+'<select id=selUser onchange=location.hash="";TOO.initUser(users[this.value]); title="Select user" size=15 style=width:100%; >' +
+
+'</select>' + b +
+b +
+
+'</details>' +
+
+'';
+
+SEL.getMenuSelectUserOptions();
+
+}
+
+
+SEL.getMenuSelectUserOptions = function(){
+
+let user;
+
+users.keys = Object.keys( users );
+
+for ( let i = 0; i < users.keys.length; i++ ) {
+
+user = users[ users.keys[ i ] ];
+
+selUser[ i ] = new Option( user.user + ' ' + user.repo + ' ' + user.folder + ' ' + user.branch, users.keys[ i ] );
+
+}
+
+selUser.selectedIndex = users.keys.indexOf( user.user );
+
+}
+</script>
+<script>
+// ../r2/set-settings-about.js inserted
+
+SET = {};
+
+SET.init = function() {
+
+mnuSettings.innerHTML =
+
+'<details>' +
+
+'<summary><h3>Settings</h3></summary>' +
+
+'<div><button onclick=SET.cssColors("#222","#ddd","#555"); >Dark</button>' +
+' <button onclick=SET.cssColors("#fff","#000","#eee"); >Light</button>' +
+' <button onclick=SET.cssColors("#f3eacb","#704214","#704214"); >Sepia</button>' +
+'</div>' + b +
+
+'<div><button onclick=SET.cssFontOpenSans(); >Open Sans</button>' +
+' <button onclick=SET.cssFontInconsolata(); >Inconsolata</button>' +
+' <button onclick=SET.cssFontMonospace(); >Monospace</button>' +
+'</div>' + b +
+
+'<div><button onclick=SET.cssFontSize("12pt"); >Normal</button>' +
+' <button onclick=SET.cssFontSize("14pt"); >Larger</button>' +
+' <button onclick=SET.cssFontSize("18pt"); >Largest</button>' +
+'</div>' + b +
+
+'</details>' +
+'';
+
+mnuAbout.innerHTML =
+
+'<details>' +
+
+'<summary><h3>About</h3></summary>' +
+
+'<p>Copyright &copy; ' + ( new Date() ).getFullYear() + ' ' + user.user + ' authors. ' +
+'<a href=http://github.com/' + user.user + '/' + user.repo + ' >MIT license</a>.</p>' +
+'<p>Click the \'i in a circle\' icon for more <a href=index.html#readme.md title="Click here for help and information" >help</a>.</p>' +
+
+'</details>' +
+
+'<hr>' +
+
+'<center><a href=javascript:menu.scrollTop=0; style=text-decoration:none; onmouseover=pop2.style.display=""; onmouseout=pop2.style.display="none"; ><h1>' + ( user.logo ? user.logo : '❦' ) + '</h1></a></center>' +
+'<div class=popUp id=pop2 style=display:none;bottom:20px; >' + user.user + ' - ' + user.subText + '.<br>Click here to return to the top of the page</div>' +
+
+'';
+
+}
+
+SET.cssColors = function( back, color, mnu ) {
+
+document.body.style.backgroundColor = back;
+document.body.style.color = color;
+menu.style.backgroundColor = mnu;
+
+};
+
+
+SET.cssFontOpenSans = function() {
+
+let fontID = 'Open+Sans';
+
+let font = document.body.appendChild( document.createElement( 'link' ) );
+font.id = fontID;
+font.rel = 'stylesheet';
+font.href = 'https://fonts.googleapis.com/css?family=' + fontID;
+
+document.body.style.fontFamily = 'Open Sans';
+
+};
+
+SET.cssFontInconsolata = function() {
+
+let fontID = 'Inconsolata';
+
+let font = document.body.appendChild( document.createElement( 'link' ) );
+font.id = fontID;
+font.rel = 'stylesheet';
+font.href = 'https://fonts.googleapis.com/css?family=' + fontID;
+
+document.body.style.fontFamily = 'Inconsolata';
+
+};
+
+SET.cssFontMonospace = function() {
+
+//	document.body.style.fontFamily = '"Lucida Console", Monaco, monospace';
+document.body.style.fontFamily = 'monospace';
+
+};
+
+SET.cssFontSize = function( size ) {
+
+document.body.style.fontSize = size;
+
+};
+</script>
+<script>
+// ../r2/too-tootoo.js inserted
+TOO = {};
+
+//	let files;
+const b = '<br>';
+
+
+
+TOO.initUser = function( usr ) {
+
+user = usr;
+
+TOO.setMenu = TOO.tableOfContents !== undefined ? TOO.setMenuContents : TOO.setMenuDefault;
+
+mnuItems.innerHTML =
+
+'<details open >' +
+
+'<summary><h3 id=menuTitle >Contents</h3></summary>' +
+
+'<div id=breadcrumbs ></div>' +
+'<div id=menuItems ></div>' +
+
+'</details>' + b +
+'';
+
+if ( location.hash.includes( '@@@' ) ) {
+
+TOO.urlGHPages = './';
+location.hash = location.hash.replace( '@@@', '' );
+
+} else if ( user.rawgit ) {
+
+TOO.urlGHPages = 'https://rawgit.com/' + user.user + '/' + user.repo + '/' + user.branch + '/' ;
+
+} else {
+
+TOO.urlGHPages = 'https://' + user.user + '.github.io/' + user.repo + '/';
+
+}
+
+TOO.setMenu( user.folder );
+
+}
+
+
+
+
+TOO.massageText = function( response ){
+
+text = TOO.converter.makeHtml( response );
+
+return text;
+
+};
+
+
+TOO.setMenuDefault = function ( path ) {
+
+let url;
+
+url = 'https://api.github.com/repos/' + user.user + '/' + user.repo + '/contents/' + ( path ? path : '' );
+
+TOO.setBreadcrumbs( path );
+
+TOO.requestFile( url, TOO.callbackFolderContents );
+
+}
+
+
+TOO.callbackFolderContents = function( xhr ) {
+
+let response, items, item, count;
+
+response = xhr.target.response;
+items = JSON.parse( response );
+
+TOO.files = [];
+count = 0;
+menuItems.innerHTML = '';
+
+for ( let i = 0; i < items.length; i++ ) {
+
+item = items[ i ];
+
+if ( item.type === 'dir' ) {
+
+menuItems.innerHTML +=
+//	'<a href=JavaScript:location.hash="' + item.path + '";TOO.setMenuDefault("' + item.path + '"); style=width:100%; > 🗀 ' + item.name + '</a>' + b +
+'<a href=JavaScript:TOO.setMenuDefault("' + item.path + '"); style=width:100%; > 🗀 ' + item.name + '</a>' + b +
+
+'';
+
+}
+
+}
+
+for ( i = 0; i < items.length; i++ ) {
+
+item = items[ i ];
+
+if ( item.type === 'file' ) {
+
+menuItems.innerHTML +=
+'<a id=file' + count++ + ' href=#' + item.path + ' style=width:100%; > ' + item.name + '</a>' + b +
+'';
+
+TOO.files.push( item.path );
+
+}
+
+}
+
+
+if ( location.hash === '' && ( location.hash.includes( '/' ) || location.hash.includes( '.' ) ) ) {
+
+TOO.getFileSetContents( location.hash.slice( 1 ) );
+
+} else if ( user.defaultFile !== undefined ) {
+
+TOO.getFileSetContents( user.defaultFile );
+
+} else {
+
+TOO.setDefaultContents();
+
+}
+
+}
+
+
+TOO.setMenuContents = function() { // we have a table of contents / TOO.tableOfContents somewhere
+
+var text;
+
+showdown.setFlavor( 'github' );
+
+TOO.converter = new showdown.Converter();
+
+text = TOO.massageText( TOO.tableOfContents );
+
+menuItems.innerHTML = text;
+
+TOO.files = [];
+menuTitle.innerHTML = 'Table of Contents';
+breadcrumbs.innerHTML = '';
+
+
+if ( location.hash.length > 1 ) {
+
+TOO.getFileSetContents( location.hash.slice( 1 ) );
+
+} else if ( user.defaultFile !== undefined ) {
+
+TOO.getFileSetContents( user.defaultFile );
+
+} else {
+
+TOO.getFileSetContents( 'README.md' );
+
+}
+
+}
+
+
+TOO.setDefaultContents = function() {
+
+let txt, start, path, p;
+
+for ( var i = 0; i < TOO.files.length; i++ ) {
+
+path = TOO.files[ i ];
+p = path.toLowerCase();
+
+if ( p.endsWith( 'index.html' ) || p.endsWith( 'index.htm') ) { TOO.getFileSetContents( path ); return; }
+if ( p.endsWith( 'readme.md' ) ) { TOO.getFileSetContents( path ); return; }
+
+}
+
+path = TOO.files[ 0 ];
+TOO.getFileSetContents( path );
+
+}
+
+
+TOO.setBreadcrumbs = function( path ) {
+
+let name, txt, folders, str;
+
+name = user.folder ? user.folder : user.repo;
+name = user.repo;
+
+txt = '<h3><a href=JavaScript:TOO.setMenuDefault(); >' + name + '</a> &raquo; </h3>';
+
+folders = path ? path.split( '/' ) : [] ;
+
+str = '';
+
+for ( let i = 0; i < folders.length; i++ ) {
+
+str += folders[ i ] + '/';
+
+txt += '<h3><a href=JavaScript:TOO.setMenuDefault("' + str.slice( 0, -1 ) + '"); >' + folders[ i ] + '</a> &raquo; </h3>';
+
+}
+
+breadcrumbs.innerHTML = txt;
+
+}
+
+
+TOO.requestFile = function ( fileName, callback ) {
+
+var fileName, text, lines;
+
+xhr = new XMLHttpRequest();
+xhr.crossOrigin = 'anonymous';
+xhr.open( 'GET', fileName, true );
+xhr.onerror = function( xhr ) { console.log( 'error', xhr ); };
+xhr.onload = callback;
+xhr.send( null );
+
+}
+
+</script>
+<script>
+// ../r2/mnu-items.js inserted
+</script>
+<script>
+// ../r2/cnt-contents.js inserted
+
+TOO.getFileSetContents = function( path ) {
+
+let url, u;
+
+if ( path === undefined ) {
+
+contents.innerHTML = '<center>no files in this folder</center>';
+return;
+
+}
+
+url = TOO.urlGHPages + path;
+
+u = url.toLowerCase();
+
+if ( u.endsWith( '.md' ) ){
+
+TOO.getFileMD( url );
+
+} else if ( u.endsWith( '.html' ) || u.endsWith( '.htm' ) ) {
+
+TOO.getFileHTML( url );
+
+} else if ( u.endsWith( '.gif' ) || u.endsWith( '.ico' ) || u.endsWith( '.jpg' ) || u.endsWith( '.png' ) || u.endsWith( '.svg' ) ) {
+
+TOO.getFileImage( url );
+
+} else {
+
+TOO.getFileCode( url );
+
+}
+
+BUT.setHighlightAndButtons( path );
+
+location.hash = path;
+
+}
+
+
+TOO.getFileHTML = function( url ){
+
+contents.innerHTML =
+'<iframe id=ifr src=' + url + ' width=' + ( window.innerWidth - 325 ) + ' height=' + ( window.innerHeight - 5 ) +
+' style="border:0 none; " >' +
+'<iframe>';
+
+}
+
+
+TOO.massageText = function( response ){
+
+text = TOO.converter.makeHtml( response );
+
+return text;
+
+};
+
+
+TOO.getFileMD = function( url ) {
+
+// https://github.com/showdownjs/showdown
+
+showdown.setFlavor('github');
+
+TOO.converter = new showdown.Converter();
+
+TOO.requestFile( url, callbackMD );
+
+function callbackMD( xhr ) {
+
+text = TOO.massageText( xhr.target.response );
+
+contents.innerHTML =
+
+'<div style="margin: 0 auto; width: 800px; position: relative;" >' +
+text +
+'</div>';
+
+contents.scrollTop = 0;
+
+}
+
+}
+
+
+TOO.getFileImage = function( url ){
+
+contents.innerHTML = '<img src="' + url + '" style="border: 0px solid gray; margin: 25px 0 0 50px; max-width: 800px; " >';
+
+}
+
+
+TOO.getFileCode = function( url ) {
+
+// try embed gist
+contents.innerHTML =
+'<div id=contentsCode style="border: 0px red solid; height: 900px; margin: 0 auto; width: 900px; position: relative;" >' +
+' item will appear here ' +
+'</div>';
+
+if ( TOO.editor ) {
+
+setEditContents();
+
+} else {
+
+// check here for latest: https://cdnjs.com/libraries/ace/
+// Anyway to get latest automatically?
+// use GitHub code embed??
+
+TOO.editor = document.body.appendChild( document.createElement( 'script' ) );
+TOO.editor.onload = setEditContents;
+TOO.editor.src = 'https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/ace.js';
+
+}
+
+
+function setEditContents() {
+
+editor = ace.edit( 'contentsCode' );
+editor.$blockScrolling = Infinity;
+editor.getSession().setMode( 'ace/mode/markdown' );
+
+TOO.requestFile( url, callback );
+
+function callback( xhr ) {
+
+editor.setValue( xhr.target.response.slice( 0, 10000 ), -1 );
+
+}
+
+}
+
+}
+
+
+TOO.createPageOfImages = function( path ) {
+
+let page, items, item, fileName;
+
+page = '';
+//	count = 0;
+
+fileName = 'https://api.github.com/repos/' + user.user + '/' + user.repo + '/contents/' + path;
+
+TOO.requestFile( fileName, callbackGalleryContents );
+
+function callbackGalleryContents( xhr ){
+
+response = xhr.target.response;
+items = JSON.parse( response );
+
+for ( let i = 0; i < items.length; i++ ) {
+
+item = items[ i ];
+
+source = item.download_url;
+
+if ( source.includes( 'TOOgallery' ) || source.includes( '.thumb' ) || source.includes( '.highlight' ) || source.endsWith( '.dat' ) || source.endsWith( '.lock' ) ) { continue; }
+
+page += '<div style=display:inline-block;margin:10px; >' +
+'<a href=JavaScript:TOO.getFileSetContents("' + item.path +'"); ><img src=' + source + ' height=200; title="' + fileName.slice( 0, -4 ) + '" ></a>' +
+'</div>';
+
+}
+
+contents.innerHTML = page;
+
+TOO.setHighlightAndButtons( path, true );
+
+}
+
+}
+
+</script>
+<script>
+// Copyright 2017 prediqtiv authors ~ MIT license
+
+let images = 'https://prediqtiv.github.io/images/';
+
+user = {
+user : 'prediqtiv',
+subText : 'Invest smarter',
+logo: '<img src=' + images + 'five-boxes.png height=32 >',
+repo : 'prediqtiv.github.io',
+branch : 'master',
+folder : '',
+//	defaultFile : 'README.md'
+};
+
+
+TOO.tableOfContents =
+
+`
+## predIQtiv
+[predIQtiv home page]( #README.md )
+[Copyright and license]( #license.md )
+## eyeCue
+[eyeCue Read Me]( #eye-cue/README.md )
+[eyeCue Replay Read Me](#eye-cue/replay/README.md )
+[eyeCue Realtime Read]( #eye-cue/realtime/README.md )
+## Trades
+[Trades Get Read Me]( #trades-get/README.md )
+## Tweets
+[Tweets Read Me]( #tweets/README.md )
+## White Papers
+[White Papers Read Me]( #white-papers/README.md )
+[Markets, Outliers and Data Normalization]( #white-papers/outliers-data-normlization.md )
+## Device Parameters Test
+[Device Parameters Test Read Me]( #device-parameters-test/README.md )
+`;
+
+
+init();
+
+function init() {
+
+let container, contents, hamburger, menu;
+
+CSS.setCSS();
+
+container = document.body.appendChild( document.createElement( 'div' ) );
+container.id = 'container';
+container.innerHTML =
+'<div id=menu >' +
+
+'<h2>' +
+//	'<a href=http://jaanga.github.io title="Jaanga - your 3D happy place" > &#x2766 </a><br>' +
+//	'<a href="" title="Click here to refresh this page" >' + document.title + '</a>' +
+//	'<a href="" title="Click here to refresh this page" >' + location.pathname.split( '/' ).pop().slice( 0, -5).replace( /-/g, ' ' ) + '</a>' +
+'<a href="" title="Click here to refresh this page" ><img src=' + images + 'predIQtiv.png height=48px ></a>' +
+' <a href="https://github.com/' + user.user + '/' + user.repo + '" onmouseover=popHelp.style.display=""; onmouseout=popHelp.style.display="none"; style=vertical-align:top; > &#x24D8; </a>' +
+
+//	' ~ <a href=index.html#readme.md onmouseover=popHelp.style.display=""; onmouseout=popHelp.style.display="none"; > &#x24D8; </a>' +
+'</h2>' +
+
+'<div class=popUp id=popHelp style=display:none; ><p>Hi there!</p>Click the i-in-circle, info icon for latest updates.</div>' +
+
+'<p><small>' + document.head.querySelector( "[name=description]" ).content + '</small></p>' +
+
+
+'<div>' +
+'<button onclick=TOO.setMenu=TOO.setMenuContents;TOO.setMenu(); >Table of Conntents</button>' +
+' <button onclick=TOO.setMenu=TOO.setMenuDefault;TOO.setMenu(); >All Files</button>' +
+'</div>' + b +
+
+'<div id=mnuItems ></div>' +
+
+'<div id=mnuSettings ></div>' +
+'<div id=mnuCount ></div>' +
+'<div id=mnuAbout ></div>' +
+
+'</div>' +
+
+'<div id=hamburger onclick=container.style.left=container.style.left===""?"-325px":""; >' +
+'<div id=bars title="Click this hamburger to slide the menu" > &#9776 </div>' +
+'</div>' +
+
+'<div id=contents ></div>' +
+
+'';
+
+if ( window.self !== window.top ) { container.style.left = '-325px'; }
+window.addEventListener ( 'hashchange', onHashChange, false );
+
+BUT.initButtons();
+
+SET.init();
+
+TOO.initUser( user );
+
+}
+
+
+function onHashChange() {
+
+TOO.getFileSetContents( location.hash.slice( 1 ) );
+
+}
+</script>
+</body>
+</html>

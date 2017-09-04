@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang=en >
+<head>
+<meta charset=utf-8 >
+<title>TooToo6 pushMe pullYou R1</title>
+<meta name=viewport content='width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no' >
+<meta name=description content='Browse and view files on GitHub with remarkable ease.' >
+<meta name=keywords content='CSS,HTML,JavaScript,GitHub,FOSS' >
+<meta name=date content='2017-06-29' >
+<link rel=stylesheet href=../js/style.css >
+</head>
+<body>
+<script src=https://cdn.rawgit.com/showdownjs/showdown/master/dist/showdown.min.js ></script>
+<script src=../js/htm-html.js ></script>
+<script src=../js/mnu-menu.js ></script>
+<script src=../js/con-contents.js ></script>
+<script src=../js/typ-select-menu-type.js ></script>
+<script>
+
+// Copyright 2017 Pushme Pullyou authors ~ MIT license
+
+	var path, user;
+	path = location.protocol === 'file:' ? '../../../' : '';
+
+
+	user = {
+
+		user: 'pushme-pullyou',
+		repo: 'pushme-pullyou.github.io',
+		branch: 'master',
+		path: path,
+
+		infoLink : 'https://github.com/pushme-pullyou/pushme-pullyou.github.io/',
+		tagLine : 'Browse & view stuff on PushMe PullYou real fast!',
+		subText : 'Browse & view stuff on PushMe PullYou real fast!',
+		title : 'TT6 PushMe PullYou',
+//		defaultFile : 'dev-notes.md'
+	}
+
+// Can we automate when merging into one?????
+	user.server = location.protocol === 'file:' ? '' : // ../../../' :
+//		'https://rawgit.com/' + user.user + '/' + user.repo + '/' + user.branch + '/' ;
+		'https://' + user.user + '.github.io/' + user.repo + '/' ;
+
+	MNU.tableOfContents =
+
+`### <span title="Gazelle-unicorn cross with two heads at opposite ends of its body" >Pushme-Pullyou</span>
+* [Read Me]( #README.md )
+### GubGub <small><i>explore GH repos</i></small>
+* [Read Me]( #gubgub/README.md )
+* &#x1F5D7; [GubGub R2]( http://pushme-pullyou.github.io/gubgub/r2/index.html )
+### DabDab <small><i>monitor user activity</i></small>
+* [Read Me]( #dabdab/README.md )
+* &#x1F5D7; [DabDab R1]( http://pushme-pullyou.github.io/dabdab/r1/index.html )
+### TooToo <small><i>browse & view files</i></small>
+* [TooToo Read Me]( #tootoo/README.md )
+
+#### TooToo 6
+* [TooToo6 Anywhere Read Me]( #tootoo/r6/anywhere/README.md )
+<!-- * &#x1F5D7; [TooToo6 Anywhere]( https://pushme-pullyou.github.io/tootoo/r6/anywhere/) -->
+* &#x1F5D7; [Diana Chace Read Me]( https://pushme-pullyou.github.io/tootoo/r6/diana-chace/tt6-diana-chace-r1.html )
+* [Ladybug Web]( #tootoo/r6/ladybug-web/tt6-ladybug-web-r1.html )
+* [Jaanga Terrain3]( #tootoo/r6/jaanga-terrain3/tt6-jaanga-terrain3-r1.html )
+* [TooToo6 pushMe pullYou Read Me]( #tootoo/r6/pushme-pullyou/README.md )
+* [TooToo6 Skim Read Me]( #tootoo/r6/skim/README.md )
+* [TooToo6 Skim]( #tootoo/r6/skim/tt6-skim-r1.html )
+
+#### TooToo 5
+* [Best-websites-a-programmer-should-visit Read Me]( #tootoo/r5/best-websites/README.md )
+* [Ladybug Tools View Read Me ]( #tootoo/r5/ladybug-tools-view/README.md )
+* &#x1F5D7; [Ladybug Tools View]( https://pushme-pullyou.github.io/tootoo/r5/ladybug-tools-view/ladybug-tools-view-r1.html )
+* [Parallel Constitution Read Me]( #tootoo/r5/parallel-constitution/README.md )
+* [Succeed Study Supplement Read Me]( #tootoo/r5/succeed-study-supplement/README.md )
+
+#### TooToo 4
+* [Dev Read Me]( #tootoo/r3/dev/README.md )
+* [Library Read Me]( #tootoo/r4/library/README.md )
+* [get-github-dir-names]( #tootoo/r4/utilities/get-github-dir-names/README.md )
+
+#### Utilities
+* [Utilities Read Me]( #utilities/README.md )
+* [Make Read Me Read Me]( #utilities/make-github-readme2/README.md )
+* [Read Me Template]( #utilities/make-github-readme2/github-readme-template.md )
+* [Merge Files into one]( #utilities/merge-files-into-one/README.md )
+* [Markdown Cheat Sheet]( #utilities/markdown-cheat-sheet.md )
+* &#x1F5D7; [Building Simulation 2017 Sponsors]( https://pushme-pullyou.github.io/utilities/bs2017-sponsor-links/bs2017-sponsor-links-r2.html )
+`;
+
+	TYP.typeSelectedIndex = 0;
+	const b = '<br>';
+
+	init();
+
+	function init() {
+
+		let tagLine;
+
+		container = document.body.appendChild( document.createElement( 'div' ) );
+		container.id = 'container';
+		container.innerHTML = basicHTML;
+
+		if ( window.self !== window.top ) { container.style.left = '-325px'; }
+
+		window.addEventListener( 'resize', setContentsWidth, false );
+
+		setContentsWidth();
+
+		window.addEventListener ( 'hashchange', onHashChange, false );
+
+		tagLine = user.tagLine ? user.tagLine : document.head.querySelector( "[name=description]" ).content;
+		mnuTitle.innerHTML = user.title ? user.title : document.title;
+		mnuTagline.innerHTML = '<small><p>' + tagLine + '</p></small>';
+		mnuHelp.href = user.infoLink ? user.infoLink : 'https://github.com/pushme-pullyou/pushme-pullyou.github.io/tree/master/tootoo/';
+
+		MNU.init();
+
+		CON.initContents();
+		TYP.initSelectType();
+
+		TYP.selectMenuType();
+
+	}
+
+
+	function onHashChange() {
+
+		CON.getFileSetContents( location.hash.slice( 1 ) );
+		CON.setButtons( location.hash.slice( 1 ) );
+		TYP.highlightMenuItem();
+
+	}
+
+
+	function setContentsWidth() {
+
+		contents.style.width = ( window.innerWidth - 325 ) + 'px';
+
+	}
+
+
+</script>
+</body>
+</html>

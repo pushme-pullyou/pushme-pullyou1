@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang=en >
+<head>
+<meta charset=utf-8 >
+<title></title>
+<meta name=viewport content='width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no' >
+<meta name=description content='combine multiple tootoo files into one file.' >
+<meta name=keywords content='CSS,HTML,JavaScript,GitHub,FOSS' >
+<meta name=date content='2017-05-14' >
+</head>
+<body>
+<script>
+// Copyright 2017 pusheMe puulYou authors ~ MIT license
+
+
+var date = new Date();
+var string = date.getFullYear() + '-' + ( date.getMonth() + 1 ) + '-' + date.getDate();
+
+
+var header =
+
+`<!doctype html>
+<html lang=en >
+<head>
+<meta charset=utf-8 >
+<title>TooToo Anywhere R1</title>
+<meta name=viewport content='width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no' >
+<meta name=description content='Browse and view files on GitHub with remarkable ease.' >
+<meta name=keywords content='CSS,HTML,JavaScript,GitHub,FOSS' >
+<meta name=date content='` + string + `' >
+<style>
+`;
+
+var header2 =
+`<\/style>
+<\/head>
+<body>
+<script src=https://cdn.rawgit.com/showdownjs/showdown/master/dist/showdown.min.js ><\/script>
+<script>
+`;
+
+var footer =
+
+`
+// Copyright 2017 Pushme Pullyou authors ~ MIT license
+
+	protocol = location.protocol;
+
+	if ( protocol === 'file:' ) {
+
+		if ( location.pathname.includes( 'github.io' ) ) {
+
+			firstDot = location.pathname.indexOf( 'github.io' );
+			user = location.pathname.slice( 0, firstDot - 1 );
+			user = user.slice( user.lastIndexOf( '/' ) + 1 );
+			repo = user + '.github.io';
+
+			path = location.pathname.slice( firstDot + 10, location.pathname.lastIndexOf( '/' )  );
+
+		} else if ( location.pathname.includes( 'github.com' ) ) {
+
+			firstDot = location.pathname.indexOf( 'github.com' );
+			user = location.pathname.slice( 0, firstDot - 1 );
+			user = user.slice( user.lastIndexOf( '/' ) + 1 );
+			repo = user + '.github.com';
+			path = location.pathname.slice( firstDot + 11, location.pathname.lastIndexOf( '/' )  );
+		}
+
+	} else if ( protocol.includes( 'http' ) ) {
+
+		firstDot = location.hostname.indexOf( '.github.io' );
+		user = location.hostname.slice( 0, firstDot );
+		path = location.pathname.slice( 1, location.pathname.lastIndexOf( '/' )  );
+
+	}
+
+	var user = {
+
+		user: user,
+		repo: repo,
+		branch: 'master',
+		path: path,
+
+	}
+
+
+	const b = '<br>';
+
+	init();
+
+	function init() {
+
+		let tagLine;
+
+		container = document.body.appendChild( document.createElement( 'div' ) );
+		container.id = 'container';
+		container.innerHTML = basicHTML;
+
+		if ( window.self !== window.top ) { container.style.left = '-325px'; }
+
+		window.addEventListener( 'resize', setContentsWidth, false );
+
+		setContentsWidth();
+
+		window.addEventListener ( 'hashchange', onHashChange, false );
+
+		tagLine = document.head.querySelector( "[name=description]" ).content;
+		mnuTitle.innerHTML = document.title;
+		mnuTagline.innerHTML = '<small><p>' + tagLine + '</p></small>';
+		mnuHelp.href = 'https://github.com/pushme-pullyou/pushme-pullyou.github.io/tree/master/tootoo/';
+
+		MNU.init();
+
+		CON.initContents();
+		SEL.initSelectType();
+
+		mnuUserTitle.innerHTML = '<h3>User: ' + user.user + '</h3>';
+		mnuUserTagline.innerHTML = 'Repo: ' + user.repo;
+
+		SEL.selectMenuType();
+
+	}
+
+
+	function onHashChange() {
+
+		CON.getFileSetContents( location.hash.slice( 1 ) );
+		CON.setButtons( location.hash.slice( 1 ) );
+		SEL.highlightMenuItem();
+
+	}
+
+
+	function setContentsWidth() {
+
+		contents.style.width = ( window.innerWidth - 325 ) + 'px';
+
+	}
+
+
+<\/script>
+<\/body>
+<\/html>
+`;
+
+	files = [
+
+		'../js-dev/style.css',
+		'../js-dev/html.js',
+		'../js-dev/menu.js',
+		'../js-dev/contents.js',
+		'../js-dev/sel-select-menu-type.js',
+
+	];
+
+
+	count = 0;
+
+	var htm, readMe, css, mnu, sel, too;
+		const b = '<br>';
+
+	init();
+
+	function init() {
+
+		let css, container, hamburger, menu;
+
+		css = document.body.appendChild( document.createElement('style') );
+		css.innerHTML =
+			'html, body { font: 12pt monospace; height:100%; margin: 0; }' +
+			'a { color: crimson; text-decoration: none; }' +
+			'a:hover { text-decoration: underline; }' +
+
+			'button, input[type=button] { background-color: #ccc; border: 2px #fff solid; color: #322; }' +
+			'input[type=range] { -webkit-appearance: none; -moz-appearance: none; background-color: #ddd; width: 160px; }' +
+			'input[type=range]::-moz-range-thumb { background-color: #888; border-radius: 0; width: 10px; }' +
+			'input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; background-color: #888; height: 20px; width: 10px; }' +
+
+			'summary { outline: none; }' +
+			'summary h3 { display: inline; }' +
+
+			'.popUp { background-color: white; left: 300px; border: 1px solid red; opacity: 1.0; padding: 5px; position: absolute; width: 120px; z-index: 10; }' +
+			'#bars { color: crimson; cursor: pointer; font-size: 24pt; text-decoration: none; }' +
+			'#container { left: 0; position: absolute; transition: left 1s; width: 100%;}' +
+
+			'#contents { border: 1px #ccc solid; height: 900px; left: 375px; max-width: 1200px; position: absolute; }' +
+
+			'#hamburger { background-color: #eee; left: 325px; position: absolute; top: 20px; }' +
+			'#hamburger h2 { margin: 0; }' +
+			'#menu { background-color: #eee; border: 1px #ccc solid; padding: 0 10px; position: absolute; width: 300px; }' +
+			'#menu h2 { margin: 0; }' +
+		'';
+
+		container = document.body.appendChild( document.createElement( 'div' ) );
+		container.id = 'container';
+		container.innerHTML =
+			'<div id=menu >' +
+
+				'<h2>' +
+					'<a href=http://jaanga.github.io title="Jaanga - your 3D happy place" > &#x2766 </a><br>' +
+//					'<a href="" title="Click here to refresh this page" >' + document.title + '</a>' +
+					'<a href="" title="Click here to refresh this page" >' + location.pathname.split( '/' ).pop().slice( 0, -5).replace( /-/g, ' ' ) + '</a>' +
+					' ~ <a href=index.html#readme.md onmouseover=popHelp.style.display=""; onmouseout=popHelp.style.display="none"; > &#x24D8; </a>' +
+				'</h2>' +
+
+				'<div class=popUp id=popHelp style=display:none; ><p>Hi there!</p>Click the i-in-circle, info icon for latest updates.</div>' +
+
+				'<p><small>' + document.head.querySelector( "[name=description]" ).content  + '</small></p>' +
+
+				'<p>' +
+//					'<select id=selFile onchange=selectFile(); title="Select file" size=15 style=width:100%; ></select>' +
+				'</p>' +
+
+
+				'<details open>' +
+
+					'<summary><h3>Menu</h3></summary>' +
+
+					'<p>' +
+						'<button onclick=saveFile(); > Save File </button>' +
+					'</p>' +
+
+					'<div id=menuInfo ></div>' +
+
+				'</details>' +
+
+			'</div>' +
+
+			'<div id=hamburger onclick=container.style.left=container.style.left===""?"-325px":""; >' +
+				'<div id=bars title="Click this hamburger to slide the menu" > &#9776 </div>' +
+			'</div>' +
+
+			'<textarea id=contents style=height:900px;width:1000px;>' +
+
+			'</textarea>' +
+
+		'';
+
+		if ( window.self !== window.top ) { container.style.left = '-325px'; }
+
+		selectFile();
+
+
+	}
+
+
+
+	var txt = '';
+	var scr;
+
+	function selectFile() {
+
+		contents.value = 'bbbbbbbbb';
+		txt = '';
+
+		for ( var i = 0; i < files.length; i++ ) {
+
+			requestFile( files[ i ], callback, i );
+
+		}
+
+/*		requestFile( '../../dev-repo/' + selFile.value, callback, files.length );
+
+		if ( !scr ) {
+			scr = document.body.appendChild( document.createElement( 'script' ) );
+			scr.onload = scrOnload;
+		}
+*/
+	}
+
+
+
+	function callback( xhr, index  ) {
+console.log( '', index );
+		if ( index === 0 ) {
+
+			txt += header +
+				xhr.target.response +
+				header2;
+
+		} else {
+
+			txt += xhr.target.response;
+
+		}
+
+		if ( index === files.length - 1 ){
+
+			contents.value = txt + footer;
+
+			MNU = {};
+			CON = {};
+
+//			scr.src = '../../dev-repo/' + selFile.value;
+
+		}
+
+	}
+
+
+
+	function requestFile( fileName, callback, index ) {
+
+		let xhr;
+
+		xhr = new XMLHttpRequest();
+		xhr.crossOrigin = 'anonymous';
+		xhr.open( 'GET', fileName, true );
+		xhr.onerror = function( xhr ) { console.log( 'error', xhr  ); };
+		xhr.onload = function( xhr ){ callback( xhr, index ) };
+		xhr.send( null );
+
+	}
+
+
+	function saveFile() {
+
+		let date, blob, a;
+
+		date = new Date();
+		blob = new Blob( [ contents.value ] );
+		a = document.body.appendChild( document.createElement( 'a' ) );
+		a.href = window.URL.createObjectURL( blob );
+		a.download = 'tootoo-anywhere-in-one-r1.html';
+		a.click();
+		a = null;
+
+	}
+
+
+</script>
+</body>
+</html>
